@@ -1,0 +1,13 @@
+{
+    "name": "Yt extension`",
+    "description": "Base Level Extension",
+    "version": "1.0",
+    "manifest_version": 3,
+    "action": {
+      "default_popup": "hello.html"
+    },
+    "permissions":[
+      "activeTab",
+      "downloads"
+    ]
+  }
