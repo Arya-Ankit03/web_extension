@@ -1,69 +1,51 @@
 import pytube as pt
 
-video_url = 'https://www.youtube.com/watch?v=AsvhscWKcnM&t=4s'
-
-for i in pt.YouTube(video_url).streams:
-    # print(i)
-    pass
-yt = pt.YouTube(video_url)
-def video_checker(url):
-    try:
-        my_dict = {
-            "1080p" : None,
-            "720p" : None,
-            "480p" : None
-        }
-
+video_url = 'https://www.youtube.com/watch?v=rx57Og8MTm0'
         
-        video = yt.streams.filter(progressive=True)
+class VideoDownloader:
+    def __init__(self, vid_url):
+        self.vid_url = vid_url
+        self.yt_video = pt.YouTube(self.vid_url)
+        self.my_dict = {
+                "1080p" : None,
+                "720p" : None,
+                "480p" : None
+            }
 
-        for avail_streams in video:
-            if avail_streams.resolution == "720p":
-                my_dict["720p"] = avail_streams.itag
-            if avail_streams.resolution == "1080p":
-                my_dict["1080p"] = avail_streams.itag
-                print(avail_streams.itag)
-            if avail_streams.resolution == '480p':
-                my_dict["480p"] = avail_streams.itag
-                print(avail_streams.itag)
+    def video_checker(self):
+        try:
+                video = self.yt_video.streams.filter(progressive=True)
+                print(video)
+                for avail_streams in video:
+                    for res, tag in self.my_dict.items():
+                        if avail_streams.resolution == res:
+                            self.my_dict[res] = avail_streams.itag
+                            print(avail_streams.itag)
+                print(self.my_dict)
+        except:
+            print(f'An error occurred')
+            print(self.my_dict)
 
-    except:
-        print(f'An error occurred: ')
+    def download_video(self, resolution):
+        # Not working as of now 
+        try:
+            if self.my_dict[resolution] != None:
+                stream = self.yt_video.stream.get_by_itag(self.my_dict[resolution])
+                stream.default_filename()
+                stream.dowload()
+        
+        except:
+            print("Something wrong, unable to download")
+        
+    def download_audio(self):
+        try:
+            audio = self.yt_video.streams.filter(only_audio=True)
+            audio_file = audio.order_by("abr").last()
+            audio_file.download()
+        except:
+            print(f"Unable to download audio file")
 
-def download_yt_video_1080p(itag):
-    try:
-        stream=yt.stream.get_by_itag(itag)
-        stream.dowload()
-    except:
-        print(f'An error occurred: ')
-
-
-def download_yt_video_720p(itag):
-    try:
-        stream=yt.stream.get_by_itag(itag)
-        stream.dowload()
-    except:
-        print(f'An error occurred: ')
-
-def download_yt_video_480p(itag):
-    try:
-
-        stream=yt.stream.get_by_itag(itag)
-        stream.dowload()
-    except:
-        print(f'An error occurred: ')
-
-
-def download_youtube_audiio(url):
-    try:
-        yt = pt.YouTube(url)
-        audio = yt.streams.filter(only_audio=True)
-        final = audio.order_by("abr").last()
-        final.download()
-    except:
-        pass
-
-
-download_youtube_audiio(video_url)
-# Call the function with the video URL
-# download_youtube_audiio(video_url)
+if __name__ == '__main__':
+    vid_down = VideoDownloader(video_url)
+    vid_down.video_checker()
+    # vid_down.download_audio()

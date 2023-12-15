@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Download Video and Audio</title>
+</head>
+<body>
+    <h1>Download Video</h1>
+    <form action="http://127.0.0.1:5000/download_video" method="post">
+        <label for="video-url">Video URL:</label>
+        <input type="text" id="video-url" name="url"><br><br>
+
+        <label for="video-quality">Select Quality:</label>
+        <select id="video-quality" name="quality">
+            <option value="highest">Highest</option>
+            <option value="high">High</option>
+            <option value="low">Low</option>
+        </select><br><br>
+
+        <input type="submit" value="Download Video">
+    </form>
+
+    <h1>Download Audio</h1>
+    <form action="http://127.0.0.1:5000/download_audio" method="post">
+        <label for="audio-url">Audio URL:</label>
+        <input type="text" id="audio-url" name="url"><br><br>
+
+        <input type="submit" value="Download Audio">
+    </form>
+</body>
+</html>
