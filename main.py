@@ -32,7 +32,7 @@ class VideoDownloader:
             if self.my_dict[resolution] != None:
                 stream = self.yt_video.stream.get_by_itag(self.my_dict[resolution])
                 stream.default_filename()
-                stream.dowload()
+                stream.download()
         
         except:
             print("Something wrong, unable to download")
