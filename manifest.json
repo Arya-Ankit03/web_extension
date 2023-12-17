@@ -3,11 +3,26 @@
     "description": "Base Level Extension",
     "version": "1.0",
     "manifest_version": 3,
+    
     "action": {
-      "default_popup": "hello.html"
+      "default_popup": "test.html",
+      "default_title": "Yt Downloader"
     },
+    "host_permissions" : [
+      "https://localhost:5000/"
+    ],
+    "background" : {
+      "service_worker" : "background.js"
+    },
+    "content_scripts" : [ 
+    {
+      "matches" : ["https://youtube.com/watch*"],
+      "js" : ["content_scripts.js"]
+    }
+  ],
     "permissions":[
       "activeTab",
-      "downloads"
+      "downloads",
+      "scripting"
     ]
-  }
+}
